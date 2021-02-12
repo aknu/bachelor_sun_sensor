@@ -1,1 +1,0 @@
-litt kode her og
