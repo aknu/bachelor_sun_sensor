@@ -25,8 +25,8 @@ int32_t D = 100;
 float h = 2.18e-3;
 float r = 1.26e-3;
 
-double x;
-double y;
+float x;
+float y;
 
 float phi;
 float theta;
@@ -37,30 +37,13 @@ uint16_t theta_i2c;
 ISR(TWI0_TWIS_vect){
 	if((TWI0.SSTATUS & TWI_APIF_bm) && (TWI0.SSTATUS & TWI_AP_bm))		//Address interrupt
 	{						
-		I2C_sendAck();													//Send ACK
+		I2C_sendAck();													//Send ACK after address received
 	}
-	else if(TWI0_SSTATUS & TWI_DIF_bm)																//Data interrupt
+	else if(TWI0_SSTATUS & TWI_DIF_bm)									//Data interrupt
 	{
-		
 		if(TWI0.SSTATUS & TWI_DIR_bm)									//Master read from slave
 		{					
-			switch(cmd)
-			{
-				case 0x00:
-					TWI0.SDATA = (theta_i2c >> 8) & 0xFF;					//theta MSB
-					break;
-				case 0x01:
-					TWI0.SDATA = (theta_i2c >> 0) & 0xFF;					//theta LSB
-					break;
-				case 0x02:
-					TWI0.SDATA = (phi_i2c >> 8) & 0xFF;						//phi MSB
-					break;
-				case 0x03:
-					TWI0.SDATA = (phi_i2c >> 0) & 0xFF;						//phi LSB
-					break;
-				default:
-					TWI0.SDATA = 111;
-			}
+			I2C_sendData(cmd,theta_i2c,phi_i2c);			
 		}
 		else															//Master write to slave
 		{											
@@ -76,7 +59,6 @@ ISR(TWI0_TWIS_vect){
 					*/
 					x = (float)(B+C-A-D)/(A+B+C+D)*r;
 					y = (float)(A+B-C-D)/(A+B+C+D)*r;
-					
 					
 					phi = atan(sqrt(pow(x,2)+pow(y,2))/h)*180/M_PI;
 
@@ -100,15 +82,15 @@ ISR(TWI0_TWIS_vect){
 							theta = 0;
 						}
 					}
+					break;
+				case 0x05:
+					// Function to set I2C address
+					break;
 				phi_i2c = (int)round((phi*100));
 				theta_i2c = (int)round((theta*100));
 			}
 		}
 		I2C_sendAck();													//Send ACK
-	}
-	else //Stop interrupt
-	{
-		
 	}
 }
 
