@@ -10,7 +10,7 @@
 
 void ADC_init(void)
 	{
-		VREF.ADC0REF = VREF_REFSEL_4V096_gc;	//Set VREF to 2,5V
+		VREF.ADC0REF = VREF_REFSEL_4V096_gc;	//Set VREF
 		ADC0.CTRLC = ADC_PRESC_DIV20_gc;		//Select pre-scaler to 20 (CLK_ADC = 4Mhz/20 = 200kHz)
 		ADC0.CTRLA = ADC_ENABLE_bm;				//Enable ADC
 	}
