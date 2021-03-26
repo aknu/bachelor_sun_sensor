@@ -1,8 +1,8 @@
 /*
- * AVRDB_test0.6_interrupts.c
+ * SunSensor_AVRDB.c
  *
- * Created: 16.03.2021 15:46:52
- * Author : andre
+ * Created: 25.03.2021 15:46:52
+ * Author : Andreas Knutli
  */ 
 
 #include <avr/io.h>
@@ -45,21 +45,21 @@ void getAngles(float r, float h){
 	
 	phi = atan(sqrt(pow(x,2)+pow(y,2))/h)*180/M_PI;
 
-	if(x < 0)											//-x,+y and -x,-y
+	if(x < 0)						//-x,+y and -x,-y
 	{
 		theta = atan(y/x)*180/M_PI*-1+180;
 	}
 	else
 	{
-		if(y < 0)										//+x,-y
+		if(y < 0)					//+x,-y
 		{
 			theta = atan(y/x)*180/M_PI*-1;
 		}
-		else if(y > 0)									//+x,+y
+		else if(y > 0)					//+x,+y
 		{
 			theta = atan(y/x)*180/M_PI*-1+360;
 		}
-		else											//x=y=0
+		else						//x=y=0
 		{
 			theta = 0;
 		}
@@ -71,15 +71,15 @@ void getAngles(float r, float h){
 ISR(TWI0_TWIS_vect){
 	if((TWI0.SSTATUS & TWI_APIF_bm) && (TWI0.SSTATUS & TWI_AP_bm))		//Address interrupt
 	{						
-		I2C_sendAck();													//Send ACK after address received
+		I2C_sendAck();							//Send ACK after address received
 	}
-	else if(TWI0_SSTATUS & TWI_DIF_bm)									//Data interrupt
+	else if(TWI0_SSTATUS & TWI_DIF_bm)					//Data interrupt
 	{
-		if(TWI0.SSTATUS & TWI_DIR_bm)									//Master read from slave
+		if(TWI0.SSTATUS & TWI_DIR_bm)					//Master read from slave
 		{					
 			I2C_sendData(cmd,theta_i2c,phi_i2c);			
 		}
-		else															//Master write to slave
+		else								//Master write to slave
 		{											
 			cmd = TWI0.SDATA;
 			switch(cmd)
@@ -94,7 +94,7 @@ ISR(TWI0_TWIS_vect){
 					break;
 			}
 		}
-		I2C_sendAck();													//Send ACK
+		I2C_sendAck();							//Send ACK
 	}
 }
 
