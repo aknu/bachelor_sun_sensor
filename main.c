@@ -84,12 +84,12 @@ ISR(TWI0_TWIS_vect){
 			cmd = TWI0.SDATA;
 			switch(cmd)
 			{
-				case 0x04:
+				case 0x04:					//Master requests to get new angles
 					getAngles(r,h);
 					phi_i2c = angles[0];
 					theta_i2c = angles[1];
 					break;
-				case 0x05:
+				case 0x05:					//Master requests to set new i2c address
 					// Function to set I2C address
 					break;
 			}
