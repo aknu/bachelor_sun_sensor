@@ -33,6 +33,8 @@ uint16_t theta_i2c;
 
 uint16_t angles[2]; //angle[phi_i2c,theta_i2c]
 
+/* I like to keep my main file as clean as possible, I think all this calculation could be moved to its own c file. There is no need to have them in the main file.*/
+
 void getAngles(float r, float h){
 	
 	A = 20;//ADC_read(diodeA);
@@ -64,10 +66,11 @@ void getAngles(float r, float h){
 			theta = 0;
 		}
 	}
-	angles[0] = (int)round((phi*100));
+	angles[0] = (int)round((phi*100)); //The cast should be to unit16_t as that is the correct data type.
 	angles[1] = (int)round((theta*100));
 }
 
+/* IN general I think the ISR should be in the same c file as the peripheral or in a c file where all the ISRs are. */
 ISR(TWI0_TWIS_vect){
 	if((TWI0.SSTATUS & TWI_APIF_bm) && (TWI0.SSTATUS & TWI_AP_bm))		//Address interrupt
 	{						
@@ -86,6 +89,8 @@ ISR(TWI0_TWIS_vect){
 			{
 				case 0x04:					//Master requests to get new angles
 					getAngles(r,h);
+					/*It is generally not a good idea to spend such a long time in an interrupt. I would recommend seting some flag and do the getAngles call in the main function.
+					Also are you sure that you are able to do all the calculations before you are sending tha ACK? You are keeping the master waiting a unnecessary long time for the ack. */
 					phi_i2c = angles[0];
 					theta_i2c = angles[1];
 					break;
