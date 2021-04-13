@@ -11,3 +11,4 @@ v0.4 changes
   -  Corrected some errors with calculating angles
   -  Changed diode definitions to typedef enum
   -  Changed ISR so the slave sends ACK right after receiving cmd from master
+  -  Added several to-do's in the code
