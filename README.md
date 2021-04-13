@@ -3,7 +3,7 @@
 The program takes 4 inputs from a quad-photodiode and calculates x- and y-values. These values are converted to two angles, phi ranging from 0 - 30 degrees and theta ranging from 0 - 360 degrees. These angles are then sent to a master device over i2c.
 
 v0.4 changes
-  - Added folder structure (.c files in src foler and .h files in include foler), and studio project
+  - Added folder structure (.c files in src folder and .h files in include folder), and added studio project
   - Cleaned up main.c
     - Moved ISR into i2c_slave.c, moved getAngles function into sun_sensor.c
     - Moved variable declarations into apporpriate header files
