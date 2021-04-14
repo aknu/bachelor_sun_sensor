@@ -11,9 +11,12 @@
 
 #include <avr/io.h>
 
+uint8_t cmd;
+uint8_t slaveAddress;
+
 void I2C_init(uint8_t slaveAddress);
 
-void I2C_sendData(uint8_t cmd, uint16_t theta_i2c, uint16_t phi_i2c);
+void I2C_sendData(uint8_t cmd, uint16_t angles[]);
 
 void I2C_sendAck(void);
 

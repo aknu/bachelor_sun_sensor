@@ -11,13 +11,15 @@
 
 #include <avr/io.h>
 
-#define diodeA ADC_MUXPOS_AIN0_gc
-#define diodeB ADC_MUXPOS_AIN1_gc
-#define diodeC ADC_MUXPOS_AIN2_gc
-#define diodeD ADC_MUXPOS_AIN3_gc
+typedef enum{
+	DIODE_A = ADC_MUXPOS_AIN0_gc,
+	DIODE_B = ADC_MUXPOS_AIN1_gc,
+	DIODE_C = ADC_MUXPOS_AIN2_gc,
+	DIODE_D = ADC_MUXPOS_AIN3_gc
+	} diode_t;
 
 void ADC_init(void);
 
-uint16_t ADC_read(uint8_t diode);
+uint16_t ADC_read(diode_t diode);
 
 #endif /* ADC_H_ */
