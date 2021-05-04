@@ -25,10 +25,16 @@ float y;
 float phi;
 float theta;
 
-uint16_t angles[2]; //angles[phi, theta]
+uint8_t angles[4]; //angles[phi, theta]
+uint8_t R_vect[6]; //R[xMSB, xLSB, yMSB, yLSB, zMSB, zLSB]
+uint8_t ADC_values[8]; //[A_MSB, A_LSB, B_MSB, B_LSB....]
 
-float R_vect[3]; //R_vect[x_vect,y_vect,z_vect]
+void getAngles(void);
 
-void getVector(float r, float h);
+void setUpAngles(void);
+
+void setUpVector(void);
+
+void setUpADCvalues(void);
 
 #endif /* SUN_SENSOR_H_ */

@@ -33,8 +33,8 @@ LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
-../include \
-../src
+../include/ \
+../src/
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
@@ -75,9 +75,9 @@ src/ADC.d \
 src/I2C_slave.d \
 src/sun_sensor.d
 
-OUTPUT_FILE_PATH +=SunSensor_AVRDB_v0.4.elf
+OUTPUT_FILE_PATH +=SunSensor_AVRDB_v0.5.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=SunSensor_AVRDB_v0.4.elf
+OUTPUT_FILE_PATH_AS_ARGS +=SunSensor_AVRDB_v0.5.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -143,13 +143,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="SunSensor_AVRDB_v0.4.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=avr128db48 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\AVR-Dx_DFP\1.6.76\gcc\dev\avr128db48"  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="SunSensor_AVRDB_v0.5.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=avr128db48 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\AVR-Dx_DFP\1.6.76\gcc\dev\avr128db48"  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "SunSensor_AVRDB_v0.4.elf" "SunSensor_AVRDB_v0.4.hex"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "SunSensor_AVRDB_v0.4.elf" "SunSensor_AVRDB_v0.4.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "SunSensor_AVRDB_v0.4.elf" > "SunSensor_AVRDB_v0.4.lss"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "SunSensor_AVRDB_v0.4.elf" "SunSensor_AVRDB_v0.4.srec"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "SunSensor_AVRDB_v0.4.elf"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "SunSensor_AVRDB_v0.5.elf" "SunSensor_AVRDB_v0.5.hex"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "SunSensor_AVRDB_v0.5.elf" "SunSensor_AVRDB_v0.5.eep" || exit 0
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "SunSensor_AVRDB_v0.5.elf" > "SunSensor_AVRDB_v0.5.lss"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "SunSensor_AVRDB_v0.5.elf" "SunSensor_AVRDB_v0.5.srec"
+	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "SunSensor_AVRDB_v0.5.elf"
 	
 	
 
@@ -161,5 +161,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "SunSensor_AVRDB_v0.4.elf" "SunSensor_AVRDB_v0.4.a" "SunSensor_AVRDB_v0.4.hex" "SunSensor_AVRDB_v0.4.lss" "SunSensor_AVRDB_v0.4.eep" "SunSensor_AVRDB_v0.4.map" "SunSensor_AVRDB_v0.4.srec" "SunSensor_AVRDB_v0.4.usersignatures"
+	rm -rf "SunSensor_AVRDB_v0.5.elf" "SunSensor_AVRDB_v0.5.a" "SunSensor_AVRDB_v0.5.hex" "SunSensor_AVRDB_v0.5.lss" "SunSensor_AVRDB_v0.5.eep" "SunSensor_AVRDB_v0.5.map" "SunSensor_AVRDB_v0.5.srec" "SunSensor_AVRDB_v0.5.usersignatures"
 	
